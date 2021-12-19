@@ -1,7 +1,7 @@
 import 'package:crimetracker/CrimeView.dart';
 import 'package:crimetracker/main.dart';
 import 'package:crimetracker/model/crime.dart';
-import 'package:crimetracker/repository/DbProvider.dart';
+import 'package:crimetracker/repository/db_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';

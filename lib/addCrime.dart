@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:crimetracker/main.dart';
 import 'package:crimetracker/model/crime.dart';
-import 'package:crimetracker/repository/DbProvider.dart';
+import 'package:crimetracker/repository/db_provider.dart';
 import 'package:crimetracker/repository/EngineRoom.dart';
 import 'package:crimetracker/utils/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:search_map_place/search_map_place.dart';
+// import 'package:search_map_place/search_map_place.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddCrimePage extends StatelessWidget {
@@ -161,26 +161,35 @@ class _CrimeFormState extends State<CrimeForm> {
                 //     )),
 
                 Container(
-                    width: 300,
+                    height: 50,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    margin: EdgeInsets.only(bottom: 15,right: 10),
+                    padding: EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: SearchMapPlaceWidget(
-                      apiKey: apiKey,
-                      darkMode: true,
-                      icon: Icons.location_on,
-                      placeholder: "Address",
-                      onSelected: (Place place) async {
-                        location.text = await place.description;
-                        // var geo = await place.geolocation;
+                        color: Colors.grey[200],
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(12))),
+                    child: TextFormField(
+                      enabled: true,
+                      controller: location,
+                      validator: (string){
+                        if(string == "") return "Please enter event location in details";
+                        return null;
                       },
+                      style: TextStyle(color: Colors.black,),
+                      decoration: InputDecoration(
+                          labelText: "Event Location and Address",
+                          labelStyle: TextStyle(color: Colors.black26),
+                          fillColor: Colors.black26),
                     )),
 
+                locprocessing? Container(
+                    margin: EdgeInsets.only(top:20),
+                    width:20, child: LinearProgressIndicator(backgroundColor: Colors.white,value: 5,)):Container(),
                 Container(
                     width: 190,
                     margin: EdgeInsets.only(top: 40),
-                    child: locprocessing
-                        ? Container(width:40, child: CircularProgressIndicator(backgroundColor: Colors.white,value: 5,)):
+                    child:
                 Column(
                   children: [
                     Container(child: Text("${currentLocation.text}")),
@@ -294,7 +303,7 @@ class _CrimeFormState extends State<CrimeForm> {
   }
 
 
-  Future<Crime> saveData(){
+  Future<Crime> saveData() async{
 
 
       Crime crime = new Crime.fromMap({
@@ -308,11 +317,12 @@ class _CrimeFormState extends State<CrimeForm> {
         'img3': _image3.path
       });
       print(crime.cName);
-      return DbProvider.db.insertDb(crime);
+      return await DbProvider.db.insertDb(crime) as Crime;
   }
 
   selectImage(im) async {
-    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery );
     setState(() {
       if (image != null) {
         switch(im){

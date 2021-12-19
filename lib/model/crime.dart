@@ -44,7 +44,7 @@ class Crime {
     date : data['dateCreated']
   );
 
-  Map <String,dynamic> toMap(){
+  Map <String,dynamic> toDb(){
     var map = <String, Object> {
     'eName' : this.cName,
     'eDescription' : this.cDescription,

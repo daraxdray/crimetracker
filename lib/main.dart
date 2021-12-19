@@ -1,6 +1,7 @@
 // @dart=2.9
 
 import 'package:crimetracker/crimeList.dart';
+import 'package:crimetracker/first_page.dart';
 import 'package:flutter/material.dart';
 import 'package:crimetracker/addCrime.dart';
 void main() {
@@ -74,9 +75,9 @@ class HomePage extends StatelessWidget {
             direction: Axis.horizontal,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              ElevatedButton(onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => CrimeListView())), child: Text("Crime List")),
+              ElevatedButton(onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => CrimeListView())), child: Text("Admin")),
               ElevatedButton(onPressed: ()=>
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> AddCrimePage())), child: Text("New"))
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> FirstPage())), child: Text("Register"))
             ],
           ),
         )
